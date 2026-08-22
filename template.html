@@ -1,0 +1,665 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="color-scheme" content="light only">
+<meta name="theme-color" content="#1B4B66">
+<title id="pageTitle">Καλώς ορίσατε</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    color-scheme: light only;
+    --wash:#F4EFE2;
+    --wash-deep:#E4DBC4;
+    --ink:#232019;
+    --aegean:#1B4B66;
+    --aegean-deep:#123342;
+    --terracotta:#C1592F;
+    --olive:#5C6B3F;
+    --sun:#E8AA3D;
+    --card:#FCFAF3;
+    --muted:#79715C;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{background:var(--wash);}
+  body{
+    background:var(--wash);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    line-height:1.5;
+    padding-bottom:60px;
+  }
+  .wrap{max-width:460px; margin:0 auto; padding:0 18px;}
+
+  header.hero{
+    background: var(--aegean);
+    color:var(--wash);
+    padding:36px 18px 30px;
+    text-align:center;
+  }
+  .eyebrow{
+    font-size:0.72rem; letter-spacing:0.14em; text-transform:uppercase;
+    color:var(--sun); font-weight:700; margin-bottom:8px;
+  }
+  h1{
+    font-family:'Fraunces', serif; font-weight:600;
+    font-size:1.7rem; line-height:1.2;
+  }
+
+  .wifi-card{
+    background:var(--card);
+    margin:-20px 18px 0;
+    border-radius:14px;
+    padding:18px 20px;
+    box-shadow:0 10px 26px rgba(18,51,66,0.18);
+    position:relative; z-index:2;
+  }
+  .wifi-row{display:flex; justify-content:space-between; gap:14px;}
+  .wifi-label{font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); font-weight:700;}
+  .wifi-value{font-family:'Fraunces', serif; font-size:1.1rem; font-weight:600; margin-top:2px;}
+  .divider-dash{border:none; border-top:1.5px dashed var(--wash-deep); margin:12px 0;}
+
+  .orbit-section{padding:38px 0 0; text-align:center;}
+  .section-title{font-family:'Fraunces', serif; font-size:1.35rem; font-weight:600;}
+  .section-sub{color:var(--muted); font-size:0.87rem; margin:4px 0 26px;}
+
+  .orbit-stage{
+    position:relative;
+    width:100%;
+    max-width:340px;
+    aspect-ratio:1/1;
+    margin:0 auto;
+  }
+  .orbit-ring{
+    position:absolute; inset:0;
+    border-radius:50%;
+    border:1.5px dashed var(--wash-deep);
+  }
+  .avatar{
+    position:absolute;
+    top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    width:38%;
+    filter:drop-shadow(0 8px 14px rgba(18,51,66,0.25));
+  }
+  .avatar-caption{
+    font-family:'Fraunces', serif;
+    font-style:italic;
+    font-size:0.95rem;
+    color:var(--aegean-deep);
+    margin-top:16px;
+  }
+  .cat-btn{
+    position:absolute;
+    width:68px; height:68px;
+    border-radius:50%;
+    background:var(--card);
+    border:2px solid var(--wash-deep);
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    gap:2px;
+    cursor:pointer;
+    transition:transform .15s ease, border-color .15s ease, background .15s ease;
+    transform-origin:center;
+    color:var(--ink);
+  }
+  .cat-btn svg{width:22px; height:22px;}
+  .cat-btn span{font-size:0.62rem; font-weight:700; color:var(--ink);}
+  .cat-btn.active{
+    background:var(--terracotta);
+    border-color:var(--terracotta);
+    transform:scale(1.12);
+  }
+  .cat-btn.active span{color:#fff;}
+  .cat-btn.active svg path{stroke:#fff;}
+
+  .panel{margin-top:30px; text-align:left; min-height:40px;}
+  .panel-hint{
+    text-align:center; color:var(--muted); font-size:0.85rem;
+    padding:10px 30px;
+  }
+  .panel-title{
+    font-family:'Fraunces', serif; font-size:1.15rem; font-weight:600;
+    display:flex; align-items:center; gap:8px; margin-bottom:14px;
+  }
+  .panel-title .dot{width:9px; height:9px; border-radius:50%; background:var(--terracotta);}
+
+  .region-row{
+    display:flex; gap:8px; overflow-x:auto;
+    padding-bottom:6px; margin-bottom:16px;
+  }
+  .region-chip{
+    flex:0 0 auto;
+    background:var(--card);
+    border:1.5px solid var(--wash-deep);
+    color:var(--ink);
+    font-family:'Public Sans', sans-serif;
+    font-size:0.8rem; font-weight:600;
+    padding:7px 14px;
+    border-radius:20px;
+    cursor:pointer;
+  }
+  .region-chip.active{
+    background:var(--aegean);
+    border-color:var(--aegean);
+    color:#fff;
+  }
+
+  .place-card{
+    background:var(--card);
+    border:1px solid var(--wash-deep);
+    border-radius:12px;
+    padding:14px 16px;
+    margin-bottom:10px;
+  }
+  .place-top{display:flex; justify-content:space-between; align-items:baseline; gap:10px;}
+  .place-name{font-family:'Fraunces', serif; font-weight:600; font-size:1rem;}
+  .place-city{font-size:0.68rem; text-transform:uppercase; letter-spacing:0.06em; color:var(--olive); font-weight:700; white-space:nowrap;}
+  .place-desc{font-size:0.86rem; color:var(--ink); margin-top:5px;}
+  .place-foot{margin-top:10px;}
+  .map-btn{
+    display:inline-flex; align-items:center; gap:6px;
+    background:var(--aegean); color:#fff;
+    font-size:0.78rem; font-weight:600;
+    padding:7px 13px; border-radius:20px;
+    text-decoration:none;
+  }
+
+  footer{margin-top:44px; text-align:center; color:var(--muted); font-size:0.76rem; padding:0 20px;}
+</style>
+</head>
+<body>
+
+  <header class="hero" id="heroSection">
+    <div class="eyebrow" id="heroEyebrow">Κρήτη</div>
+    <h1 id="heroTitle">Καλώς ορίσατε</h1>
+  </header>
+
+  <div class="wrap">
+    <div class="wifi-card">
+      <div class="wifi-row">
+        <div>
+          <div class="wifi-label">Δίκτυο Wi‑Fi</div>
+          <div class="wifi-value" id="wifiNetwork"></div>
+        </div>
+        <div style="text-align:right;">
+          <div class="wifi-label">Κωδικός</div>
+          <div class="wifi-value" id="wifiPassword"></div>
+        </div>
+      </div>
+      <hr class="divider-dash">
+      <div class="wifi-row">
+        <div>
+          <div class="wifi-label">Check‑out</div>
+          <div class="wifi-value" style="font-size:0.95rem;" id="wifiCheckout"></div>
+        </div>
+        <div style="text-align:right;">
+          <div class="wifi-label">Host</div>
+          <div class="wifi-value" style="font-size:0.95rem;" id="wifiHost"></div>
+        </div>
+      </div>
+    </div>
+
+    <section class="orbit-section">
+      <div class="section-title">Εξερεύνησε την Κρήτη</div>
+      <div class="section-sub" id="sectionSub"></div>
+
+      <div class="orbit-stage" id="orbitStage">
+        <div class="orbit-ring"></div>
+        <img id="customAvatarImg" class="avatar" style="display:none; border-radius:50%; object-fit:cover; aspect-ratio:1/1;" alt="">
+        <svg class="avatar" id="defaultAvatarSvg" viewBox="0 0 120 175" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <radialGradient id="faceShade" cx="35%" cy="30%" r="75%">
+              <stop offset="0%" stop-color="#F4C89A"/>
+              <stop offset="100%" stop-color="#D69A68"/>
+            </radialGradient>
+            <linearGradient id="shirtShade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#FFFDF7"/>
+              <stop offset="100%" stop-color="#E7E0CE"/>
+            </linearGradient>
+            <linearGradient id="vestShade" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#1F1C16"/>
+              <stop offset="100%" stop-color="#0E0C09"/>
+            </linearGradient>
+            <linearGradient id="pantsShade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#2E2A22"/>
+              <stop offset="100%" stop-color="#131110"/>
+            </linearGradient>
+            <linearGradient id="sashShade" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#8E2E22"/>
+              <stop offset="100%" stop-color="#B23F2C"/>
+            </linearGradient>
+            <linearGradient id="mandilaShade" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#252220"/>
+              <stop offset="100%" stop-color="#0E0C0A"/>
+            </linearGradient>
+          </defs>
+
+          <ellipse cx="60" cy="167" rx="32" ry="6" fill="#12334226"/>
+
+          <!-- boots (stivania) -->
+          <path d="M40 118 Q37 148 35 158 Q34 166 45 166 Q53 166 52 158 L53 122 Z" fill="url(#pantsShade)"/>
+          <path d="M80 118 Q83 148 85 158 Q86 166 75 166 Q67 166 68 158 L67 122 Z" fill="url(#pantsShade)"/>
+          <path d="M32 158 Q31 168 44 168 L51 168 Q53 168 52 160 L45 157 Z" fill="#0A0908"/>
+          <path d="M88 158 Q89 168 76 168 L69 168 Q67 168 68 160 L75 157 Z" fill="#0A0908"/>
+          <path d="M35 148 L52 148" stroke="#000" stroke-width="1" opacity="0.3"/>
+          <path d="M68 148 L85 148" stroke="#000" stroke-width="1" opacity="0.3"/>
+
+          <!-- vraka (baggy trousers) -->
+          <path d="M32 84 Q26 112 38 124 Q60 136 82 124 Q94 112 88 84 Q76 74 60 76 Q44 74 32 84 Z" fill="url(#pantsShade)"/>
+          <path d="M60 84 L58 120" stroke="#000" stroke-width="1" opacity="0.25"/>
+
+          <!-- shirt torso -->
+          <path d="M38 54 Q35 80 40 96 Q60 104 80 96 Q85 80 82 54 Q60 46 38 54 Z" fill="url(#shirtShade)"/>
+
+          <!-- sash (zonari) -->
+          <path d="M36 88 Q60 98 84 88 L84 96 Q60 106 36 96 Z" fill="url(#sashShade)"/>
+          <path d="M52 96 L48 112 L54 108 Z" fill="url(#sashShade)"/>
+          <path d="M68 96 L72 112 L66 108 Z" fill="url(#sashShade)"/>
+          <!-- decorative sash knife (kriteko maheri), purely ornamental -->
+          <path d="M58 92 L62 92 L61 78 L59 78 Z" fill="#5B5B5B"/>
+          <path d="M59 78 L61 78 L60 72 Z" fill="#8A8A8A"/>
+          <rect x="57.5" y="90" width="5" height="4" rx="1" fill="#3A2C1E"/>
+
+          <!-- vest (yileko) with embroidery -->
+          <path d="M40 56 Q38 78 42 90 L51 88 Q47 72 48 56 Z" fill="url(#vestShade)"/>
+          <path d="M80 56 Q82 78 78 90 L69 88 Q73 72 72 56 Z" fill="url(#vestShade)"/>
+          <path d="M48 54 Q60 60 72 54 L72 60 Q60 66 48 60 Z" fill="url(#vestShade)"/>
+          <path d="M42 60 Q45 74 48 86" stroke="#C1592F" stroke-width="1.2" fill="none" opacity="0.85"/>
+          <path d="M78 60 Q75 74 72 86" stroke="#C1592F" stroke-width="1.2" fill="none" opacity="0.85"/>
+          <path d="M49 57 Q60 62 71 57" stroke="#C1592F" stroke-width="1.1" fill="none" opacity="0.85"/>
+
+          <!-- arms with wide sleeves -->
+          <path d="M38 56 Q22 64 20 84 Q19 94 27 94 Q34 94 34 86 Q37 70 44 60 Z" fill="url(#shirtShade)"/>
+          <path d="M82 56 Q98 64 100 84 Q101 94 93 94 Q86 94 86 86 Q83 70 76 60 Z" fill="url(#shirtShade)"/>
+          <ellipse cx="24" cy="92" rx="6.5" ry="7.5" fill="url(#faceShade)"/>
+          <ellipse cx="96" cy="92" rx="6.5" ry="7.5" fill="url(#faceShade)"/>
+
+          <!-- neck + head -->
+          <rect x="53" y="34" width="14" height="14" rx="4" fill="url(#faceShade)"/>
+          <circle cx="60" cy="26" r="21" fill="url(#faceShade)"/>
+          <circle cx="39" cy="27" r="4" fill="url(#faceShade)"/>
+          <circle cx="81" cy="27" r="4" fill="url(#faceShade)"/>
+
+          <!-- sfakiani mandila (black fringed headscarf) -->
+          <path d="M36 18 Q60 -6 84 18 Q84 4 60 2 Q36 4 36 18 Z" fill="url(#mandilaShade)"/>
+          <path d="M34 16 Q60 -2 86 16 L86 22 Q60 8 34 22 Z" fill="url(#mandilaShade)"/>
+          <path d="M82 18 Q92 22 90 34 Q89 30 84 28" fill="none" stroke="#0E0C0A" stroke-width="2.4" stroke-linecap="round"/>
+          <path d="M89 33 l-1 6 M91.5 32 l0 6.5 M94 31 l1.5 6" stroke="#0E0C0A" stroke-width="1.6" stroke-linecap="round"/>
+
+          <!-- face features: bold cretan moustache + eyes/brows -->
+          <path d="M44 25 Q47 22 51 24" stroke="#3A2C1E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <path d="M69 24 Q73 22 76 25" stroke="#3A2C1E" stroke-width="1.6" fill="none" stroke-linecap="round"/>
+          <circle cx="47" cy="29" r="1.8" fill="#3A2C1E"/>
+          <circle cx="73" cy="29" r="1.8" fill="#3A2C1E"/>
+          <path d="M58 31 Q60 35 62 31" stroke="#B27A4E" stroke-width="1.4" fill="none" stroke-linecap="round"/>
+          <path d="M40 37 Q60 33 80 37 Q74 46 60 44 Q46 46 40 37 Z" fill="#221B14"/>
+          <path d="M50 45 Q60 49 70 45" stroke="#221B14" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <div class="avatar-caption" id="avatarCaption"></div>
+
+      <div class="panel" id="panel">
+        <div class="panel-hint">Πάτησε ένα εικονίδιο για να δεις προτάσεις σε όλη την Κρήτη</div>
+      </div>
+    </section>
+
+    <footer>
+      Αυτή η σελίδα ανοίγει με ένα άγγιγμα στο NFC μπρελόκ των κλειδιών σου.
+      <div style="margin-top:14px;">
+        <strong>About us:</strong><br>
+        <a id="aboutLink" href="#" target="_blank" rel="noopener" style="color:var(--aegean); font-weight:600;"></a>
+      </div>
+    </footer>
+  </div>
+
+<script>
+  /* ================================================================
+     CLIENT CONFIG — διαβάζεται δυναμικά από /clients/<client>.json
+     ανάλογα με το ?client= στο URL. Νέος πελάτης = νέο JSON αρχείο,
+     ΟΧΙ νέο HTML. Το template.html μένει πάντα ίδιο.
+     ================================================================ */
+  function applyClientConfig(cfg){
+    document.getElementById('pageTitle').textContent = 'Καλώς ορίσατε — ' + cfg.siteTitle;
+    document.getElementById('heroTitle').innerHTML = 'Καλώς ορίσατε στο<br>' + cfg.siteTitle;
+    document.getElementById('heroSection').style.background =
+      'linear-gradient(180deg, rgba(18,51,66,0.35) 0%, rgba(18,51,66,0.75) 100%), url(\'' + cfg.heroImage + '\') center/cover no-repeat';
+    document.getElementById('wifiNetwork').textContent = cfg.wifiNetwork;
+    document.getElementById('wifiPassword').textContent = cfg.wifiPassword;
+    document.getElementById('wifiCheckout').textContent = cfg.checkout;
+    document.getElementById('wifiHost').textContent = cfg.hostPhone;
+    document.getElementById('avatarCaption').textContent = cfg.avatarCaption;
+    document.getElementById('sectionSub').textContent = 'Διάλεξε κατηγορία γύρω από τον ' + (cfg.avatarName || 'χαρακτήρα');
+    const aboutLink = document.getElementById('aboutLink');
+    aboutLink.href = cfg.aboutUrl;
+    aboutLink.textContent = cfg.aboutUrl;
+
+    /* Θέμα/χρώματα — ό,τι CSS var δεν δοθεί, κρατάει την default τιμή του template */
+    if (cfg.theme) {
+      const root = document.documentElement.style;
+      const map = {
+        wash:'--wash', washDeep:'--wash-deep', ink:'--ink',
+        aegean:'--aegean', aegeanDeep:'--aegean-deep',
+        terracotta:'--terracotta', olive:'--olive', sun:'--sun', card:'--card',
+        muted:'--muted'
+      };
+      Object.keys(map).forEach(key => {
+        if (cfg.theme[key]) root.setProperty(map[key], cfg.theme[key]);
+      });
+    }
+
+    /* Avatar — αν δοθεί avatarImage (URL φωτό/εικόνας), αντικαθιστά το ζωγραφισμένο SVG */
+    if (cfg.avatarImage) {
+      document.getElementById('defaultAvatarSvg').style.display = 'none';
+      const img = document.getElementById('customAvatarImg');
+      img.src = cfg.avatarImage;
+      img.style.display = 'block';
+    }
+  }
+
+  function showConfigError(message){
+    document.getElementById('heroTitle').textContent = 'Δεν βρέθηκε το κατάλυμα';
+    document.getElementById('heroSection').style.background = 'var(--aegean)';
+    const wrap = document.querySelector('.wrap');
+    const err = document.createElement('div');
+    err.style.cssText = 'background:#FBEAF0; border:1px solid #ED93B1; color:#4B1528; padding:14px 18px; border-radius:12px; margin:-20px 18px 0; position:relative; z-index:2; font-size:0.88rem;';
+    err.textContent = message;
+    wrap.insertBefore(err, wrap.firstChild.nextSibling);
+  }
+
+  const clientKey = new URLSearchParams(window.location.search).get('client');
+
+  if (!clientKey) {
+    showConfigError('Λείπει το ?client= από το URL. Παράδειγμα: template.html?client=lemonia');
+  } else {
+    fetch('clients/' + clientKey + '.json')
+      .then(res => { if (!res.ok) throw new Error('not found'); return res.json(); })
+      .then(cfg => applyClientConfig(cfg))
+      .catch(() => showConfigError('Δεν βρέθηκε config για "' + clientKey + '". Έλεγξε ότι υπάρχει το αρχείο clients/' + clientKey + '.json'));
+  }
+
+  /* ================================================================
+     ΚΟΙΝΟ TEMPLATE — ίδιο κώδικας για κάθε πελάτη από εδώ και κάτω.
+     ================================================================ */
+  const categories = [
+    { key:'cafe', label:'Καφέ', icon:'M4 9h13a3 3 0 010 6h-1M4 9v7a3 3 0 003 3h6a3 3 0 003-3V9M4 9V6h13v3' },
+    { key:'food', label:'Φαγητό', icon:'M6 3v7a2 2 0 002 2 2 2 0 002-2V3M8 12v9M18 3c-2 0-3 2-3 5v3h2v7' },
+    { key:'sights', label:'Αξιοθέατα', icon:'M3 20h18M5 20V10l7-6 7 6v10M9 20v-6h6v6' },
+    { key:'fun', label:'Διασκέδαση', icon:'M9 18V5l12-2v13M9 9l12-2M6 21a3 3 0 100-6 3 3 0 000 6zM18 19a3 3 0 100-6 3 3 0 000 6z' },
+    { key:'beach', label:'Παραλίες', icon:'M2 20c2-2 4-2 6 0s4 2 6 0 4-2 6 0M12 4v9M8 8l4-4 4 4' }
+  ];
+
+  const regions = [
+    { key:'irakleio', label:'Ηράκλειο' },
+    { key:'chania',   label:'Χανιά' },
+    { key:'rethymno', label:'Ρέθυμνο' },
+    { key:'lasithi',  label:'Λασίθι' }
+  ];
+
+  // Ενδεικτικά δεδομένα — αντικατέστησέ τα με πραγματικά/επαληθευμένα μαγαζιά όποτε θέλεις.
+  const places = {
+    cafe: {
+      irakleio: [
+        { name:'Καφέ στη λεωφόρο Δικαιοσύνης', desc:'Κεντρικό, ιδανικό πριν τη βόλτα στο λιμάνι.', lat:35.3400, lng:25.1350 },
+        { name:'Καφέ στην Πλατεία Ελευθερίας', desc:'Πολύ κεντρικό, πολλή κίνηση το απόγευμα.', lat:35.3390, lng:25.1420 },
+        { name:'Καφέ στην Πλατεία Λιονταριών', desc:'Δίπλα στη Βασιλική του Αγίου Μάρκου.', lat:35.3407, lng:25.1345 },
+        { name:'Καφέ στο Ενετικό Λιμάνι', desc:'Θέα στο φρούριο Κούλες.', lat:35.3453, lng:25.1439 },
+        { name:'Καφέ στην παραλία Αμμουδάρας', desc:'Πρωινός καφές με θέα θάλασσα.', lat:35.3491, lng:25.0847 },
+        { name:'Καφέ στη Χερσόνησο παραλιακή', desc:'Ζωντανό, δίπλα στην παραλία.', lat:35.3220, lng:25.3850 },
+        { name:'Καφέ στα Μάλια παραλιακή', desc:'Χαλαρό στέκι δίπλα στην άμμο.', lat:35.2900, lng:25.4600 },
+        { name:'Καφέ κοντά στην Κνωσό', desc:'Στάση πριν ή μετά την επίσκεψη.', lat:35.2965, lng:25.1600 },
+        { name:'Καφέ στην Αγία Πελαγία', desc:'Ήσυχος κόλπος, ιδανικό το πρωί.', lat:35.4102, lng:24.9838 },
+        { name:'Καφέ στο κέντρο Ηρακλείου (25ης Αυγούστου)', desc:'Στον κεντρικό εμπορικό δρόμο.', lat:35.3418, lng:25.1420 },
+        { name:'Καφέ στα Γούβες', desc:'Ήσυχη παραθαλάσσια γωνιά.', lat:35.3150, lng:25.3300 }
+      ],
+      chania: [
+        { name:'Kimonos Café', desc:'Ήσυχη γωνιά στην παλιά πόλη, δίπλα στο λιμάνι.', lat:35.5164, lng:24.0181 },
+        { name:'Καφέ στο Ενετικό Λιμάνι Χανίων', desc:'Θέα στον φάρο, ιδανικό το πρωί.', lat:35.5187, lng:24.0203 },
+        { name:'Καφέ στην Οδό Χάληδων', desc:'Στον κεντρικό πεζόδρομο της παλιάς πόλης.', lat:35.5155, lng:24.0170 },
+        { name:'Καφέ στη Σπλάντζια', desc:'Ήσυχη γειτονιά της παλιάς πόλης.', lat:35.5175, lng:24.0195 },
+        { name:'Καφέ στο Ακρωτήρι', desc:'Θέα στον κόλπο, λίγο έξω από την πόλη.', lat:35.5500, lng:24.1000 },
+        { name:'Καφέ στα Χανιά κοντά στην Αγορά', desc:'Δίπλα στη Δημοτική Αγορά.', lat:35.5142, lng:24.0165 },
+        { name:'Καφέ στην Παραλία Καλαθά', desc:'Χαλαρό, με θέα στον κόλπο.', lat:35.5667, lng:24.0833 },
+        { name:'Καφέ στα Χανιά, Ταμπακαριά', desc:'Δίπλα στη θάλασσα, ήσυχο.', lat:35.5100, lng:24.0100 },
+        { name:'Καφέ στη Γεωργιούπολη', desc:'Παραθαλάσσιο, δίπλα στην πλατεία με τα πλατάνια.', lat:35.3667, lng:24.2667 }
+      ],
+      rethymno: [
+        { name:'Καφέ στη Βενετσιάνικη προκυμαία', desc:'Δίπλα στο παλιό λιμάνι, ήσυχο το πρωί.', lat:35.3707, lng:24.4750 },
+        { name:'Καφέ κάτω από τη Φορτέτζα', desc:'Θέα στο κάστρο.', lat:35.3690, lng:24.4720 },
+        { name:'Καφέ στην παραλία Ρεθύμνου', desc:'Δίπλα στη μεγάλη αμμουδιά.', lat:35.3667, lng:24.4820 },
+        { name:'Καφέ στο Μπαλί', desc:'Μικρός κόλπος, πολύ φωτογενές.', lat:35.3833, lng:24.7167 },
+        { name:'Καφέ στην Αγία Γαλήνη', desc:'Παραθαλάσσιο χωριό στη νότια πλευρά.', lat:35.1000, lng:24.6833 },
+        { name:'Καφέ στην παλιά πόλη Ρεθύμνου', desc:'Ανάμεσα στα βενετσιάνικα σοκάκια.', lat:35.3680, lng:24.4740 },
+        { name:'Καφέ στην Πλακιά', desc:'Χαλαρή παραλιακή ατμόσφαιρα.', lat:35.1833, lng:24.4000 },
+        { name:'Καφέ στον Πύργο (Πλατεία Τεσσάρων Μαρτύρων)', desc:'Κεντρικό σημείο συνάντησης.', lat:35.3705, lng:24.4780 }
+      ],
+      lasithi: [
+        { name:'Καφέ στη Λίμνη Βουλισμένη', desc:'Θέα στη λίμνη, στο κέντρο του Αγ. Νικολάου.', lat:35.1931, lng:25.7178 },
+        { name:'Καφέ στην Ελούντα παραλιακή', desc:'Θέα προς τη Σπιναλόγκα.', lat:35.2500, lng:25.7167 },
+        { name:'Καφέ στην Ιεράπετρα παραλιακή', desc:'Νότια Κρήτη, θέα στη Λιβυκή θάλασσα.', lat:35.0100, lng:25.7400 },
+        { name:'Καφέ στο Παλαίκαστρο', desc:'Ήσυχο χωριό στα ανατολικά της Κρήτης.', lat:35.1975, lng:26.2600 },
+        { name:'Καφέ στη Σητεία παραλιακή', desc:'Χαλαρή ατμόσφαιρα, δίπλα στο λιμάνι.', lat:35.2078, lng:26.0989 },
+        { name:'Καφέ στην Πλάκα Λασιθίου', desc:'Απέναντι από τη Σπιναλόγκα.', lat:35.2833, lng:25.7333 },
+        { name:'Καφέ στον Άγιο Νικόλαο, κέντρο', desc:'Κεντρικό σημείο της πόλης.', lat:35.1900, lng:25.7150 }
+      ]
+    },
+    food: {
+      irakleio: [
+        { name:'Ταβέρνα Το Στέκι', desc:'Σπιτικό κρητικό φαγητό, φρέσκο ψάρι Σαββατοκύριακο.', lat:35.3401, lng:25.1408 },
+        { name:'Ταβέρνα κοντά στην Κνωσό', desc:'Στάση για φαγητό μετά την επίσκεψη.', lat:35.2965, lng:25.1600 },
+        { name:'Ψαροταβέρνα στο Ενετικό Λιμάνι', desc:'Φρέσκο ψάρι με θέα στο λιμάνι.', lat:35.3453, lng:25.1439 },
+        { name:'Ταβέρνα στην Αγία Πελαγία', desc:'Παραθαλάσσιο, ήρεμο.', lat:35.4102, lng:24.9838 },
+        { name:'Ταβέρνα στη Χερσόνησο', desc:'Παραδοσιακή κουζίνα, δίπλα στην παραλία.', lat:35.3220, lng:25.3850 },
+        { name:'Ταβέρνα στα Μάλια', desc:'Οικογενειακή κουζίνα, κοντά στην παραλία.', lat:35.2900, lng:25.4600 },
+        { name:'Ταβέρνα στα Μάταλα', desc:'Θέα στον κόλπο και τις σπηλιές.', lat:35.0650, lng:24.7550 },
+        { name:'Ταβέρνα στο κέντρο Ηρακλείου', desc:'Κοντά στην Πλατεία Λιονταριών.', lat:35.3405, lng:25.1350 },
+        { name:'Ταβέρνα στη Φαιστό', desc:'Στάση μετά την επίσκεψη στον αρχαιολογικό χώρο.', lat:35.0517, lng:24.8133 }
+      ],
+      chania: [
+        { name:'Ταβέρνα στην παλιά πόλη Χανίων', desc:'Παραδοσιακή κουζίνα δίπλα στα σοκάκια.', lat:35.5170, lng:24.0170 },
+        { name:'Ψαροταβέρνα στο Ενετικό Λιμάνι', desc:'Φρέσκο ψάρι, θέα στον φάρο.', lat:35.5187, lng:24.0203 },
+        { name:'Ταβέρνα στη Σπλάντζια', desc:'Ήσυχη γειτονιά, σπιτική κουζίνα.', lat:35.5175, lng:24.0195 },
+        { name:'Ταβέρνα στο Ακρωτήρι', desc:'Λίγο έξω από την πόλη, ήρεμο.', lat:35.5500, lng:24.1000 },
+        { name:'Ταβέρνα στη Γεωργιούπολη', desc:'Δίπλα στην πλατεία με τα πλατάνια.', lat:35.3667, lng:24.2667 },
+        { name:'Ταβέρνα κοντά στο Φαράγγι Σαμαριάς', desc:'Στάση μετά την πεζοπορία (Αγία Ρουμέλη).', lat:35.2500, lng:23.9333 },
+        { name:'Ταβέρνα στα Φαλάσαρνα', desc:'Δίπλα στην παραλία, δυτικά Χανιά.', lat:35.5833, lng:23.5833 },
+        { name:'Ταβέρνα στο κέντρο Χανίων', desc:'Κοντά στη Δημοτική Αγορά.', lat:35.5142, lng:24.0165 }
+      ],
+      rethymno: [
+        { name:'Ταβέρνα Θάλασσα', desc:'Ψαροταβέρνα με θέα στο παλιό λιμάνι.', lat:35.3667, lng:24.4667 },
+        { name:'Ταβέρνα στη Βενετσιάνικη προκυμαία', desc:'Στο ιστορικό λιμάνι.', lat:35.3707, lng:24.4750 },
+        { name:'Ταβέρνα στο Μπαλί', desc:'Δίπλα στον μικρό κόλπο.', lat:35.3833, lng:24.7167 },
+        { name:'Ταβέρνα στην Αγία Γαλήνη', desc:'Νότια Κρήτη, θέα στη θάλασσα.', lat:35.1000, lng:24.6833 },
+        { name:'Ταβέρνα στην Πλακιά', desc:'Χαλαρή παραλιακή κουζίνα.', lat:35.1833, lng:24.4000 },
+        { name:'Ταβέρνα κοντά στη Μονή Αρκαδίου', desc:'Στάση μετά την επίσκεψη στη μονή.', lat:35.3208, lng:24.5539 },
+        { name:'Ταβέρνα στην παλιά πόλη Ρεθύμνου', desc:'Ανάμεσα στα βενετσιάνικα σοκάκια.', lat:35.3680, lng:24.4740 }
+      ],
+      lasithi: [
+        { name:'Ταβέρνα στην Ελούντα', desc:'Φρέσκο ψάρι με θέα στη θάλασσα.', lat:35.2500, lng:25.7167 },
+        { name:'Ταβέρνα στον Άγιο Νικόλαο', desc:'Δίπλα στη λίμνη Βουλισμένη.', lat:35.1931, lng:25.7178 },
+        { name:'Ψαροταβέρνα στην Ιεράπετρα', desc:'Νότια Κρήτη, φρέσκο ψάρι.', lat:35.0100, lng:25.7400 },
+        { name:'Ταβέρνα στη Σητεία', desc:'Παραθαλάσσια, δίπλα στο λιμάνι.', lat:35.2078, lng:26.0989 },
+        { name:'Ταβέρνα στην Πλάκα', desc:'Απέναντι από τη Σπιναλόγκα.', lat:35.2833, lng:25.7333 },
+        { name:'Ταβέρνα στο Παλαίκαστρο', desc:'Ήσυχο χωριό ανατολικά.', lat:35.1975, lng:26.2600 },
+        { name:'Ταβέρνα κοντά στη Βάι', desc:'Στάση μετά την παραλία με τους φοίνικες.', lat:35.2600, lng:26.2450 }
+      ]
+    },
+    sights: {
+      irakleio: [
+        { name:'Ενετικό Λιμάνι', desc:'Ιστορικό λιμάνι με θέα το φρούριο Κούλες.', lat:35.3453, lng:25.1439 },
+        { name:'Ανάκτορο Κνωσού', desc:'Το πιο γνωστό αρχαιολογικό μνημείο της Κρήτης.', lat:35.2977, lng:25.1633 },
+        { name:'Αρχαιολογικό Μουσείο Ηρακλείου', desc:'Ένα από τα σημαντικότερα μουσεία της Ελλάδας.', lat:35.3402, lng:25.1439 },
+        { name:'Ενετικά Τείχη Ηρακλείου', desc:'Περίπατος πάνω στα ιστορικά τείχη.', lat:35.3350, lng:25.1300 },
+        { name:'Ανάκτορο Φαιστού', desc:'Δεύτερο σημαντικότερο μινωικό ανάκτορο.', lat:35.0517, lng:24.8133 },
+        { name:'Φαράγγι Ρούβα', desc:'Φαράγγι με πυκνή βλάστηση, ιδανικό για πεζοπορία.', lat:35.1667, lng:24.9667 },
+        { name:'Μονή Αγίας Ειρήνης', desc:'Ήσυχο μοναστήρι κοντά στην πόλη.', lat:35.2833, lng:25.1667 },
+        { name:'Παραλία-σπηλιές Μάταλα', desc:'Ιστορικές σπηλιές πάνω από τον κόλπο.', lat:35.0650, lng:24.7550 }
+      ],
+      chania: [
+        { name:'Φαράγγι Σαμαριάς', desc:'Το πιο γνωστό φαράγγι της Κρήτης, για μια ολόκληρη μέρα.', lat:35.3167, lng:23.9500 },
+        { name:'Παλιό Ενετικό Λιμάνι Χανίων', desc:'Σήμα κατατεθέν της πόλης, ιδανικό για βόλτα.', lat:35.5164, lng:24.0181 },
+        { name:'Φρούριο Φιρκά', desc:'Ενετικό φρούριο στην είσοδο του λιμανιού.', lat:35.5183, lng:24.0175 },
+        { name:'Αρχαιολογικό Μουσείο Χανίων', desc:'Στην παλιά πόλη, κοντά στο λιμάνι.', lat:35.5155, lng:24.0195 },
+        { name:'Βαλσαμόνερο / Ροτόντα Παλιάς Πόλης', desc:'Ιστορικά κτίρια της βενετσιάνικης εποχής.', lat:35.5160, lng:24.0185 },
+        { name:'Χαρουπόδασος Ακρωτηρίου', desc:'Ήσυχη φύση κοντά στην πόλη.', lat:35.5667, lng:24.1167 }
+      ],
+      rethymno: [
+        { name:'Φρούριο Φορτέτζα', desc:'Ενετικό φρούριο με θέα σε όλη την πόλη.', lat:35.3697, lng:24.4714 },
+        { name:'Μονή Αρκαδίου', desc:'Ιστορικό μοναστήρι, σύμβολο της Κρητικής επανάστασης.', lat:35.3208, lng:24.5539 },
+        { name:'Παλιά πόλη Ρεθύμνου', desc:'Βενετσιάνικα σοκάκια και αρχοντικά.', lat:35.3680, lng:24.4740 },
+        { name:'Φάρος Ρεθύμνου', desc:'Ιστορικός φάρος στο παλιό λιμάνι.', lat:35.3710, lng:24.4760 },
+        { name:'Φαράγγι Πρέβελη / Μονή Πρέβελης', desc:'Μοναστήρι με θέα στη θάλασσα, δίπλα στον φοινικόδασος.', lat:35.1500, lng:24.4667 }
+      ],
+      lasithi: [
+        { name:'Σπιναλόγκα', desc:'Το ιστορικό νησί-φυλακή λέπρας, με καΐκι από Ελούντα/Πλάκα.', lat:35.2989, lng:25.7364 },
+        { name:'Φαράγγι Ζάκρου', desc:'Γνωστό και ως "Φαράγγι των Νεκρών".', lat:35.1000, lng:26.2667 },
+        { name:'Λίμνη Βουλισμένη', desc:'Η μικρή λίμνη στο κέντρο του Αγ. Νικολάου.', lat:35.1931, lng:25.7178 },
+        { name:'Αρχαιολογικός χώρος Γουρνιάς', desc:'Μινωικός οικισμός κοντά στην Ιεράπετρα.', lat:35.1092, lng:25.8200 },
+        { name:'Μονή Τοπλού', desc:'Οχυρωμένο μοναστήρι στα ανατολικά της Κρήτης.', lat:35.2000, lng:26.2333 }
+      ]
+    },
+    fun: {
+      irakleio: [
+        { name:'Bar στο κέντρο Ηρακλείου', desc:'Ζωντανή βραδινή κίνηση κοντά στην Πλατεία Λιονταριών.', lat:35.3379, lng:25.1461 },
+        { name:'Ακτή Beach Bar Χερσονήσου', desc:'Μουσική και ποτό δίπλα στη θάλασσα.', lat:35.3200, lng:25.3833 },
+        { name:'Bar στα Μάλια', desc:'Ζωντανή βραδινή διασκέδαση.', lat:35.2900, lng:25.4600 },
+        { name:'Beach bar στην Αμμουδάρα', desc:'Χαλαρό ποτό δίπλα στην παραλία.', lat:35.3491, lng:25.0847 },
+        { name:'Bar στο Ενετικό Λιμάνι', desc:'Ποτό με θέα στο φρούριο.', lat:35.3453, lng:25.1439 },
+        { name:'Beach bar στη Χερσόνησο', desc:'Μουσική μέχρι αργά, δίπλα στην άμμο.', lat:35.3220, lng:25.3850 }
+      ],
+      chania: [
+        { name:'Bar στην παλιά πόλη Χανίων', desc:'Ζωντανή βραδινή κίνηση στα σοκάκια.', lat:35.5175, lng:24.0165 },
+        { name:'Bar στο Ενετικό Λιμάνι Χανίων', desc:'Ποτό με θέα στον φάρο.', lat:35.5187, lng:24.0203 },
+        { name:'Beach bar στη Γεωργιούπολη', desc:'Χαλαρό ποτό δίπλα στην παραλία.', lat:35.3667, lng:24.2667 },
+        { name:'Bar στο Ακρωτήρι', desc:'Ήσυχο, λίγο έξω από την πόλη.', lat:35.5500, lng:24.1000 },
+        { name:'Beach bar στα Φαλάσαρνα', desc:'Ποτό με ηλιοβασίλεμα, δυτικά Χανιά.', lat:35.5833, lng:23.5833 }
+      ],
+      rethymno: [
+        { name:'Beach bar Ρεθύμνου', desc:'Ποτό με τα πόδια στην άμμο.', lat:35.3650, lng:24.4900 },
+        { name:'Bar στη Βενετσιάνικη προκυμαία', desc:'Ζωντανό, δίπλα στο παλιό λιμάνι.', lat:35.3707, lng:24.4750 },
+        { name:'Bar στην Πλατεία Τεσσάρων Μαρτύρων', desc:'Κεντρικό σημείο συνάντησης το βράδυ.', lat:35.3705, lng:24.4780 },
+        { name:'Beach bar στο Μπαλί', desc:'Ποτό δίπλα στον μικρό κόλπο.', lat:35.3833, lng:24.7167 },
+        { name:'Bar στην Πλακιά', desc:'Χαλαρή βραδινή ατμόσφαιρα.', lat:35.1833, lng:24.4000 }
+      ],
+      lasithi: [
+        { name:'Bar στον Άγιο Νικόλαο', desc:'Δίπλα στη λίμνη, ζωντανό μέχρι αργά.', lat:35.1925, lng:25.7170 },
+        { name:'Beach bar στην Ελούντα', desc:'Ποτό με θέα προς τη Σπιναλόγκα.', lat:35.2500, lng:25.7167 },
+        { name:'Bar στην Ιεράπετρα', desc:'Παραλιακό, νότια Κρήτη.', lat:35.0100, lng:25.7400 },
+        { name:'Beach bar στη Σητεία', desc:'Χαλαρή ατμόσφαιρα δίπλα στο λιμάνι.', lat:35.2078, lng:26.0989 },
+        { name:'Bar στο Παλαίκαστρο', desc:'Ήσυχο βραδινό στέκι, ανατολικά.', lat:35.1975, lng:26.2600 }
+      ]
+    },
+    beach: {
+      irakleio: [
+        { name:'Παραλία Αμμουδάρας', desc:'Οργανωμένη παραλία κοντά στην πόλη.', lat:35.3491, lng:25.0847 },
+        { name:'Παραλία Αγίας Πελαγίας', desc:'Ήσυχος κόλπος βορειοδυτικά της πόλης.', lat:35.4102, lng:24.9838 },
+        { name:'Παραλία Καρτερού', desc:'Οργανωμένη, κοντά στο αεροδρόμιο.', lat:35.3350, lng:25.2000 },
+        { name:'Παραλία Αμνισού', desc:'Ιστορική τοποθεσία, κοντά στην Κνωσό.', lat:35.3450, lng:25.2000 },
+        { name:'Παραλία Χερσονήσου', desc:'Οργανωμένη, με πολλή κίνηση το καλοκαίρι.', lat:35.3220, lng:25.3850 },
+        { name:'Παραλία Σταλίδας', desc:'Μικρότερος, πιο ήσυχος οικισμός.', lat:35.2950, lng:25.4300 },
+        { name:'Παραλία Μαλίων', desc:'Μεγάλη αμμουδιά, πολλή ζωντάνια.', lat:35.2900, lng:25.4600 },
+        { name:'Παραλία Ματάλων', desc:'Ιστορική παραλία με τις σπηλιές.', lat:35.0650, lng:24.7550 },
+        { name:'Παραλία Κόκκινη Χάνι', desc:'Οργανωμένη, οικογενειακή.', lat:35.3300, lng:25.2300 },
+        { name:'Παραλία Γουβών', desc:'Ήσυχη παραθαλάσσια γωνιά.', lat:35.3150, lng:25.3300 }
+      ],
+      chania: [
+        { name:'Έλαφονήσι', desc:'Ροζ άμμος και ρηχά τιρκουάζ νερά.', lat:35.2667, lng:23.5333 },
+        { name:'Μπάλος', desc:'Λιμνοθάλασσα με έντονο τιρκουάζ χρώμα, λίγη ώρα πεζοπορία.', lat:35.5473, lng:23.5901 },
+        { name:'Φαλάσαρνα', desc:'Μεγάλη αμμουδιά στα δυτικά, γνωστή για το ηλιοβασίλεμα.', lat:35.5833, lng:23.5833 },
+        { name:'Παραλία Καλαθά', desc:'Οργανωμένος κόλπος στο Ακρωτήρι.', lat:35.5667, lng:24.0833 },
+        { name:'Παραλία Αγίας Μαρίνας', desc:'Οργανωμένη, κοντά στην πόλη.', lat:35.5100, lng:23.9500 },
+        { name:'Παραλία Σταυρού (Ακρωτήρι)', desc:'Μικρός κόλπος με ήρεμα νερά.', lat:35.5667, lng:24.1000 },
+        { name:'Σεϊτάν Λιμάνια', desc:'Εντυπωσιακός μικρός κόλπος, απαιτεί λίγη πεζοπορία.', lat:35.5333, lng:24.1500 },
+        { name:'Παραλία Γεωργιούπολης', desc:'Μεγάλη αμμουδιά με φυσική σκιά από ευκάλυπτους.', lat:35.3667, lng:24.2667 },
+        { name:'Παραλία Μαράθι', desc:'Ήρεμος κόλπος, ιδανικός για οικογένειες.', lat:35.5500, lng:24.0000 }
+      ],
+      rethymno: [
+        { name:'Παραλία Ρεθύμνου', desc:'Μεγάλη αμμουδιά δίπλα στην πόλη.', lat:35.3667, lng:24.4820 },
+        { name:'Παραλία Πρέβελη', desc:'Φοίνικες και ποτάμι που καταλήγει στη θάλασσα.', lat:35.1167, lng:24.4667 },
+        { name:'Παραλία Μπαλί', desc:'Γραφικός μικρός κόλπος.', lat:35.3833, lng:24.7167 },
+        { name:'Παραλία Αγίας Γαλήνης', desc:'Παραθαλάσσιο χωριό στη νότια πλευρά.', lat:35.1000, lng:24.6833 },
+        { name:'Παραλία Πλακιά', desc:'Οργανωμένη, νότια Κρήτη.', lat:35.1833, lng:24.4000 },
+        { name:'Παραλία Νταμνόνι', desc:'Μικρός κόλπος κοντά στην Πλακιά.', lat:35.1833, lng:24.3700 },
+        { name:'Παραλία Παντελεήμονα', desc:'Ήσυχη, ανατολικά του Ρεθύμνου.', lat:35.3833, lng:24.6167 },
+        { name:'Παραλία Σκαλέτα', desc:'Μικρός οργανωμένος κόλπος.', lat:35.3833, lng:24.5833 }
+      ],
+      lasithi: [
+        { name:'Παραλία Βάι', desc:'Η φοινικόδασος παραλία της Κρήτης.', lat:35.2667, lng:26.2500 },
+        { name:'Παραλία Ελούντας', desc:'Οργανωμένη, θέα προς τη Σπιναλόγκα.', lat:35.2500, lng:25.7167 },
+        { name:'Παραλία Χρυσής (Γαϊδουρονήσι)', desc:'Νησί με εξωτικά νερά, με καΐκι από Ιεράπετρα.', lat:34.9000, lng:25.7167 },
+        { name:'Παραλία Κουρεμένου', desc:'Γνωστή για windsurfing, κοντά στο Παλαίκαστρο.', lat:35.2000, lng:26.2500 },
+        { name:'Παραλία Ξηροκάμπου', desc:'Ήσυχη παραλία κοντά στην Ιεράπετρα.', lat:35.0000, lng:25.8500 },
+        { name:'Παραλία Μακρύ Γιαλού', desc:'Οργανωμένη, νότια ανατολικά.', lat:35.0333, lng:25.9833 },
+        { name:'Παραλία Αλμυρού (Αγ. Νικόλαος)', desc:'Κοντά στην πόλη, με φυσική σκιά.', lat:35.1667, lng:25.7167 },
+        { name:'Παραλία Κάτω Ζάκρου', desc:'Δίπλα στο Φαράγγι των Νεκρών.', lat:35.1000, lng:26.2667 }
+      ]
+    }
+  };
+
+  const stage = document.getElementById('orbitStage');
+  const panel = document.getElementById('panel');
+  const radius = 130;
+  const n = categories.length;
+  let currentCategory = null;
+  let currentRegion = null;
+
+  categories.forEach((cat, i) => {
+    const angle = (i / n) * 2 * Math.PI - Math.PI / 2;
+    const btn = document.createElement('div');
+    btn.className = 'cat-btn';
+    btn.style.left = `calc(50% + ${Math.cos(angle) * radius}px - 34px)`;
+    btn.style.top = `calc(50% + ${Math.sin(angle) * radius}px - 34px)`;
+    btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="${cat.icon}"/></svg><span>${cat.label}</span>`;
+    btn.addEventListener('click', () => selectCategory(cat.key, btn));
+    btn.dataset.key = cat.key;
+    stage.appendChild(btn);
+  });
+
+  function selectCategory(key, btnEl){
+    document.querySelectorAll('.cat-btn').forEach(b => b.classList.remove('active'));
+    btnEl.classList.add('active');
+    currentCategory = key;
+    currentRegion = regions[0].key;
+    renderPanel();
+  }
+
+  function renderPanel(){
+    const cat = categories.find(c => c.key === currentCategory);
+    panel.innerHTML = `
+      <div class="panel-title"><span class="dot"></span>${cat.label} στην Κρήτη</div>
+      <div class="region-row" id="regionRow"></div>
+      <div id="placeList"></div>
+    `;
+    const regionRow = document.getElementById('regionRow');
+    regions.forEach(r => {
+      const chip = document.createElement('button');
+      chip.className = 'region-chip' + (r.key === currentRegion ? ' active' : '');
+      chip.textContent = r.label;
+      chip.addEventListener('click', () => { currentRegion = r.key; renderPanel(); });
+      regionRow.appendChild(chip);
+    });
+    renderPlaceList();
+  }
+
+  function renderPlaceList(){
+    const list = (places[currentCategory] && places[currentCategory][currentRegion]) || [];
+    const regionLabel = regions.find(r => r.key === currentRegion).label;
+    document.getElementById('placeList').innerHTML = list.length ? list.map(p => `
+      <div class="place-card">
+        <div class="place-top">
+          <div class="place-name">${p.name}</div>
+          <div class="place-city">${regionLabel}</div>
+        </div>
+        <div class="place-desc">${p.desc}</div>
+        <div class="place-foot">
+          <a class="map-btn" href="https://maps.google.com/?q=${p.lat},${p.lng}" target="_blank" rel="noopener">Άνοιγμα σε Maps</a>
+        </div>
+      </div>
+    `).join('') : `<div class="panel-hint">Δεν έχουμε ακόμα προτάσεις εδώ.</div>`;
+  }
+</script>
+
+</body>
+</html>

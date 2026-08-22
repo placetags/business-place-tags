@@ -1,0 +1,24 @@
+{
+  "siteTitle": "Demo με custom avatar",
+  "heroImage": "https://images.unsplash.com/photo-1533105079780-92b9be482077?w=1200",
+  "wifiNetwork": "Demo_WiFi",
+  "wifiPassword": "demo1234",
+  "checkout": "έως 11:00",
+  "hostPhone": "6900-222222",
+  "aboutUrl": "https://example.com",
+  "avatarName": "Νίκο",
+  "avatarCaption": "Ο Νίκος στα έχει ετοιμάσει όλα",
+  "avatarImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
+  "theme": {
+    "wash": "#F4EFE2",
+    "washDeep": "#E4DBC4",
+    "ink": "#232019",
+    "aegean": "#1B4B66",
+    "aegeanDeep": "#123342",
+    "terracotta": "#C1592F",
+    "olive": "#5C6B3F",
+    "sun": "#E8AA3D",
+    "card": "#FCFAF3",
+    "muted": "#79715C"
+  }
+}

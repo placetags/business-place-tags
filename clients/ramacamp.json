@@ -1,0 +1,24 @@
+{
+  "siteTitle": "Ramacamp Loft",
+  "heroImage": "https://images.unsplash.com/photo-1502672260266-1c1ef2d93688?w=1200",
+  "wifiNetwork": "Ramacamp_Guest",
+  "wifiPassword": "ramacamp2024",
+  "checkout": "έως 11:00",
+  "hostPhone": "6900-111111",
+  "aboutUrl": "https://ramacamp.gr/",
+  "avatarName": "Μανώλη",
+  "avatarCaption": "Ο Μανώλης στα έχει ετοιμάσει όλα",
+  "avatarImage": null,
+  "theme": {
+    "wash": "#EFF1E6",
+    "washDeep": "#D7DCC4",
+    "ink": "#1E241A",
+    "aegean": "#2F6B4F",
+    "aegeanDeep": "#1B402E",
+    "terracotta": "#B5482F",
+    "olive": "#6B7A3A",
+    "sun": "#D9A441",
+    "card": "#F9FAF3",
+    "muted": "#6D735E"
+  }
+}
