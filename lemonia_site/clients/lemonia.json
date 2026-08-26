@@ -1,0 +1,24 @@
+{
+  "siteTitle": "Lily's Villa Lemonia",
+  "heroImage": "https://www.lilysvillas.gr/wp-content/uploads/2025/01/villa-lemonia0003-1-952x634.jpeg",
+  "wifiNetwork": "Wifi_example",
+  "wifiPassword": "crete2024",
+  "checkout": "έως 11:00",
+  "hostPhone": "6900-000000",
+  "aboutUrl": "https://www.lilysvillas.gr/#",
+  "avatarName": "Γιώργη",
+  "avatarCaption": "Ο Γιώργης στα έχει ετοιμάσει όλα",
+  "avatarImage": null,
+  "theme": {
+    "wash": "#F4EFE2",
+    "washDeep": "#E4DBC4",
+    "ink": "#232019",
+    "aegean": "#1B4B66",
+    "aegeanDeep": "#123342",
+    "terracotta": "#C1592F",
+    "olive": "#5C6B3F",
+    "sun": "#E8AA3D",
+    "card": "#FCFAF3",
+    "muted": "#79715C"
+  }
+}
