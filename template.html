@@ -360,12 +360,6 @@
 
 <script>
   /* ================================================================
-     ΒΑΣΗ API — άλλαξε το όταν ανεβάσεις τον server online
-     (π.χ. 'https://api.jj-nfc.gr' αντί για localhost)
-     ================================================================ */
-  const API_BASE = 'http://localhost:3000';
-
-  /* ================================================================
      CLIENT CONFIG — διαβάζεται δυναμικά από /clients/<client>.json
      ================================================================ */
   function applyClientConfig(cfg){
@@ -426,7 +420,8 @@
   }
 
   /* ================================================================
-     ΚΟΙΝΟ TEMPLATE — δυναμική φόρτωση από τον backend server
+     ΚΟΙΝΟ TEMPLATE — φόρτωση από στατικά αρχεία /data/<category>-<region>.json
+     (χωρίς server — τα αρχεία ανανεώνονται χειροκίνητα, βλ. server/build-data.js)
      ================================================================ */
   const categories = [
     { key:'cafe', label:'Καφέ', icon:'M4 9h13a3 3 0 010 6h-1M4 9v7a3 3 0 003 3h6a3 3 0 003-3V9M4 9V6h13v3' },
@@ -494,24 +489,59 @@
     });
   }
 
+  const placesCache = {};   // key: "category-region" → πλήρης λίστα από το data/*.json (φορτώνεται μία φορά)
+
+  /** Φορτώνει (και θυμάται) το στατικό αρχείο δεδομένων για μια κατηγορία/νομό. */
+  async function loadRegionData(category, region){
+    const key = category + '-' + region;
+    if (placesCache[key]) return placesCache[key];
+    const res = await fetch(`data/${key}.json`);
+    if (!res.ok) throw new Error('data file not found: ' + key);
+    const data = await res.json();
+    placesCache[key] = data;
+    return data;
+  }
+
+  /** Απόσταση σε km ανάμεσα σε δύο σημεία (haversine formula). */
+  function distanceKm(lat1, lng1, lat2, lng2){
+    const R = 6371;
+    const dLat = ((lat2 - lat1) * Math.PI) / 180;
+    const dLng = ((lng2 - lng1) * Math.PI) / 180;
+    const a =
+      Math.sin(dLat / 2) ** 2 +
+      Math.cos((lat1 * Math.PI) / 180) * Math.cos((lat2 * Math.PI) / 180) * Math.sin(dLng / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+  }
+
+  /** Τυχαία ανακάτεμα πίνακα (Fisher-Yates), χωρίς να πειράζει το πρωτότυπο. */
+  function shuffle(array){
+    const copy = [...array];
+    for (let i = copy.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copy[i], copy[j]] = [copy[j], copy[i]];
+    }
+    return copy;
+  }
+
   async function fetchPlaces({ featured = false, sort = 'default', limit = PAGE_SIZE, offset = 0 } = {}){
-    const params = new URLSearchParams({
-      category: currentCategory,
-      region: currentRegion,
-      limit: String(limit),
-      offset: String(offset),
-    });
-    if (featured) params.set('featured', 'true');
-    if (sort === 'random') params.set('sort', 'random');
-    if (sort === 'distance' && userLocation) {
-      params.set('sort', 'distance');
-      params.set('lat', String(userLocation.lat));
-      params.set('lng', String(userLocation.lng));
+    let places = await loadRegionData(currentCategory, currentRegion);
+
+    if (featured) {
+      places = places.filter(p => p.featured);
+      places = [...places].sort((a, b) => (b.rating || 0) - (a.rating || 0));
     }
 
-    const res = await fetch(`${API_BASE}/api/places?${params.toString()}`);
-    if (!res.ok) throw new Error('API error');
-    return res.json();
+    if (sort === 'random') {
+      places = shuffle(places);
+    } else if (sort === 'distance' && userLocation) {
+      places = [...places]
+        .map(p => ({ ...p, distanceKm: distanceKm(userLocation.lat, userLocation.lng, p.lat, p.lng) }))
+        .sort((a, b) => a.distanceKm - b.distanceKm);
+    }
+
+    const total = places.length;
+    const page = places.slice(offset, offset + limit);
+    return { total, limit, offset, hasMore: offset + limit < total, places: page };
   }
 
   function renderPanel(){
@@ -641,7 +671,7 @@
         });
       }
     } catch (e) {
-      listEl.innerHTML = `<div class="panel-hint">Σφάλμα φόρτωσης δεδομένων. Έλεγξε ότι ο server τρέχει.</div>`;
+      listEl.innerHTML = `<div class="panel-hint">Σφάλμα φόρτωσης δεδομένων. Έλεγξε ότι υπάρχει το αρχείο data/${currentCategory}-${currentRegion}.json.</div>`;
     }
   }
 </script>
