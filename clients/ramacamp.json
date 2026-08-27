@@ -6,8 +6,8 @@
   "checkout": "έως 11:00",
   "hostPhone": "6900-111111",
   "aboutUrl": "https://ramacamp.gr/",
-  "avatarName": "Μανώλη",
-  "avatarCaption": "Ο Μανώλης στα έχει ετοιμάσει όλα",
+  "avatarName": { "el": "Μανώλη", "en": "Manolis" },
+  "avatarCaption": { "el": "Ο Μανώλης στα έχει ετοιμάσει όλα", "en": "Manolis has got everything ready for you" },
   "avatarImage": null,
   "theme": {
     "wash": "#EFF1E6",

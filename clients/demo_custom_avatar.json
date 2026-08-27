@@ -6,8 +6,8 @@
   "checkout": "έως 11:00",
   "hostPhone": "6900-222222",
   "aboutUrl": "https://example.com",
-  "avatarName": "Νίκο",
-  "avatarCaption": "Ο Νίκος στα έχει ετοιμάσει όλα",
+  "avatarName": { "el": "Νίκο", "en": "Nikos" },
+  "avatarCaption": { "el": "Ο Νίκος στα έχει ετοιμάσει όλα", "en": "Nikos has got everything ready for you" },
   "avatarImage": "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400",
   "theme": {
     "wash": "#F4EFE2",
