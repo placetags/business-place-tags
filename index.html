@@ -440,6 +440,9 @@
       categorySuffix: 'στην Κρήτη',
       footerNfc: 'Αυτή η σελίδα ανοίγει με ένα άγγιγμα στο NFC μπρελόκ των κλειδιών σου.',
       aboutUs: 'About us:',
+      welcomeTitle: 'Καλώς ορίσατε στο',
+      tabTitle: 'Καλώς ορίσατε — ',
+      kmUnit: 'χλμ',
       categories: { cafe:'Καφέ', food:'Φαγητό', sights:'Αξιοθέατα', fun:'Διασκέδαση', beach:'Παραλίες' },
       regions: { irakleio:'Ηράκλειο', chania:'Χανιά', rethymno:'Ρέθυμνο', lasithi:'Λασίθι' },
     },
@@ -464,6 +467,9 @@
       categorySuffix: 'in Crete',
       footerNfc: 'This page opens with a tap on your NFC keychain.',
       aboutUs: 'About us:',
+      welcomeTitle: 'Welcome to',
+      tabTitle: 'Welcome — ',
+      kmUnit: 'km',
       categories: { cafe:'Cafe', food:'Food', sights:'Sights', fun:'Nightlife', beach:'Beaches' },
       regions: { irakleio:'Heraklion', chania:'Chania', rethymno:'Rethymno', lasithi:'Lasithi' },
     },
@@ -474,6 +480,13 @@
   if (!TEXT[currentLang]) currentLang = 'el';
 
   function t(key){ return TEXT[currentLang][key]; }
+
+  /** Επιλέγει τη σωστή γλώσσα από ένα πεδίο config που μπορεί να είναι είτε
+      απλό string (ίδιο και στις δύο γλώσσες) είτε object {el:"...", en:"..."}. */
+  function pickLang(value){
+    if (value && typeof value === 'object') return value[currentLang] || value.el || value.en || '';
+    return value || '';
+  }
 
   /* ── Day / Night mode ────────────────────────────────────────── */
   let currentTheme = localStorage.getItem('jjTheme') || 'light';
@@ -524,8 +537,12 @@
     document.getElementById('footerNfc').textContent = t('footerNfc');
     document.getElementById('aboutUsLabel').textContent = t('aboutUs');
     if (window.__clientCfg) {
-      document.getElementById('sectionSub').textContent =
-        t('chooseCategoryPrefix') + ' ' + (window.__clientCfg.avatarName || (currentLang === 'en' ? 'the character' : 'χαρακτήρα'));
+      const cfg = window.__clientCfg;
+      const avatarName = pickLang(cfg.avatarName) || (currentLang === 'en' ? 'the character' : 'χαρακτήρα');
+      document.getElementById('sectionSub').textContent = t('chooseCategoryPrefix') + ' ' + avatarName;
+      document.getElementById('avatarCaption').textContent = pickLang(cfg.avatarCaption);
+      document.getElementById('pageTitle').textContent = t('tabTitle') + cfg.siteTitle;
+      document.getElementById('heroTitle').innerHTML = t('welcomeTitle') + '<br>' + cfg.siteTitle;
     }
   }
 
@@ -534,30 +551,36 @@
      ================================================================ */
   function applyClientConfig(cfg){
     window.__clientCfg = cfg;
-    document.getElementById('pageTitle').textContent = 'Καλώς ορίσατε — ' + cfg.siteTitle;
-    document.getElementById('heroTitle').innerHTML = 'Καλώς ορίσατε στο<br>' + cfg.siteTitle;
     document.getElementById('heroSection').style.background =
       'linear-gradient(180deg, rgba(18,51,66,0.35) 0%, rgba(18,51,66,0.75) 100%), url(\'' + cfg.heroImage + '\') center/cover no-repeat';
     document.getElementById('wifiNetwork').textContent = cfg.wifiNetwork;
     document.getElementById('wifiPassword').textContent = cfg.wifiPassword;
     document.getElementById('wifiCheckout').textContent = cfg.checkout;
     document.getElementById('wifiHost').textContent = cfg.hostPhone;
-    document.getElementById('avatarCaption').textContent = cfg.avatarCaption;
     const aboutLink = document.getElementById('aboutLink');
     aboutLink.href = cfg.aboutUrl;
     aboutLink.textContent = cfg.aboutUrl;
 
     if (cfg.theme) {
-      const root = document.documentElement.style;
       const map = {
         wash:'--wash', washDeep:'--wash-deep', ink:'--ink',
         aegean:'--aegean', aegeanDeep:'--aegean-deep',
         terracotta:'--terracotta', olive:'--olive', sun:'--sun', card:'--card',
         muted:'--muted'
       };
-      Object.keys(map).forEach(key => {
-        if (cfg.theme[key]) root.setProperty(map[key], cfg.theme[key]);
-      });
+      const declarations = Object.keys(map)
+        .filter(key => cfg.theme[key])
+        .map(key => `${map[key]}: ${cfg.theme[key]};`)
+        .join(' ');
+
+      let styleTag = document.getElementById('clientThemeVars');
+      if (!styleTag) {
+        styleTag = document.createElement('style');
+        styleTag.id = 'clientThemeVars';
+        document.head.appendChild(styleTag);
+      }
+      /* Χαμηλή προτεραιότητα (:root) ώστε το html[data-theme="dark"] να μπορεί να το "νικήσει" */
+      styleTag.textContent = `:root{ ${declarations} }`;
     }
 
     if (cfg.avatarImage) {
@@ -826,7 +849,7 @@
           <div class="place-desc">${p.desc || ''}</div>
           <div class="place-meta">
             ${p.rating ? `⭐ ${p.rating}` : ''}
-            ${typeof p.distanceKm === 'number' ? ` · ${p.distanceKm.toFixed(1)} χλμ` : ''}
+            ${typeof p.distanceKm === 'number' ? ` · ${p.distanceKm.toFixed(1)} ${t('kmUnit')}` : ''}
           </div>
           <div class="place-foot">
             <a class="map-btn" href="https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(p.name)}&query_place_id=${p.placeId}" target="_blank" rel="noopener">${t('openMaps')}</a>
