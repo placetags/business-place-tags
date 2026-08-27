@@ -23,7 +23,6 @@
     --card:#FCFAF3;
     --muted:#79715C;
   }
-  /* ── Night mode παλέτα ─────────────────────────────────────── */
   html[data-theme="dark"]{
     --wash:#18160F;
     --wash-deep:#2B2820;
@@ -47,8 +46,6 @@
     transition:background .2s ease, color .2s ease;
   }
   .wrap{max-width:460px; margin:0 auto; padding:0 18px;}
-
-  /* ── Πάνω μπάρα: γλώσσα + day/night ─────────────────────────── */
   .topbar{
     max-width:460px; margin:0 auto;
     display:flex; justify-content:space-between; align-items:center;
@@ -80,7 +77,6 @@
     cursor:pointer;
     font-size:0.95rem;
   }
-
   header.hero{
     background: var(--aegean);
     color:var(--wash);
@@ -96,7 +92,6 @@
     font-family:'Fraunces', serif; font-weight:600;
     font-size:1.7rem; line-height:1.2;
   }
-
   .wifi-card{
     background:var(--card);
     margin:-20px 18px 0;
@@ -109,11 +104,9 @@
   .wifi-label{font-size:0.68rem; text-transform:uppercase; letter-spacing:0.08em; color:var(--muted); font-weight:700;}
   .wifi-value{font-family:'Fraunces', serif; font-size:1.1rem; font-weight:600; margin-top:2px;}
   .divider-dash{border:none; border-top:1.5px dashed var(--wash-deep); margin:12px 0;}
-
   .orbit-section{padding:38px 0 0; text-align:center;}
   .section-title{font-family:'Fraunces', serif; font-size:1.35rem; font-weight:600;}
   .section-sub{color:var(--muted); font-size:0.87rem; margin:4px 0 26px;}
-
   .orbit-stage{
     position:relative;
     width:100%;
@@ -162,7 +155,6 @@
   }
   .cat-btn.active span{color:#fff;}
   .cat-btn.active svg path{stroke:#fff;}
-
   .panel{margin-top:30px; text-align:left; min-height:40px;}
   .panel-hint{
     text-align:center; color:var(--muted); font-size:0.85rem;
@@ -173,7 +165,6 @@
     display:flex; align-items:center; gap:8px; margin-bottom:14px;
   }
   .panel-title .dot{width:9px; height:9px; border-radius:50%; background:var(--terracotta);}
-
   .region-row{
     display:flex; gap:8px; overflow-x:auto;
     padding-bottom:6px; margin-bottom:16px;
@@ -194,8 +185,6 @@
     border-color:var(--aegean);
     color:#fff;
   }
-
-  /* ── Top (featured) section ─────────────────────────────── */
   .top-label{
     font-size:0.72rem; text-transform:uppercase; letter-spacing:0.08em;
     color:var(--muted); font-weight:700; margin-bottom:8px;
@@ -224,8 +213,6 @@
   }
   .top-card .place-name{font-size:0.9rem; padding-right:34px;}
   .top-card .place-desc{font-size:0.78rem; margin-top:4px;}
-
-  /* ── Filter row ──────────────────────────────────────────── */
   .filter-row{
     display:flex; gap:8px; margin-bottom:16px;
   }
@@ -246,7 +233,6 @@
     border-color:var(--olive);
     color:#fff;
   }
-
   .place-card{
     background:var(--card);
     border:1px solid var(--wash-deep);
@@ -267,7 +253,6 @@
     padding:7px 13px; border-radius:20px;
     text-decoration:none;
   }
-
   .load-more-btn{
     display:block; width:100%;
     background:var(--card); border:1.5px dashed var(--wash-deep);
@@ -275,7 +260,6 @@
     padding:12px; border-radius:12px; cursor:pointer; margin-top:6px;
   }
   .load-more-btn:disabled{opacity:0.5; cursor:default;}
-
   footer{margin-top:44px; text-align:center; color:var(--muted); font-size:0.76rem; padding:0 20px;}
 </style>
 </head>
@@ -410,14 +394,8 @@
   </div>
 
 <script>
-  /* ================================================================
-     ΒΑΣΗ API — άλλαξε το όταν ανεβάσεις τον server online
-     ================================================================ */
   const DATA_BASE = './data';
 
-  /* ================================================================
-     ΜΕΤΑΦΡΑΣΕΙΣ — πρόσθεσε κι άλλη γλώσσα προσθέτοντας ένα ακόμα κλειδί εδώ
-     ================================================================ */
   const TEXT = {
     el: {
       langLabel: 'ΕΛ',
@@ -481,14 +459,11 @@
 
   function t(key){ return TEXT[currentLang][key]; }
 
-  /** Επιλέγει τη σωστή γλώσσα από ένα πεδίο config που μπορεί να είναι είτε
-      απλό string (ίδιο και στις δύο γλώσσες) είτε object {el:"...", en:"..."}. */
   function pickLang(value){
     if (value && typeof value === 'object') return value[currentLang] || value.el || value.en || '';
     return value || '';
   }
 
-  /* ── Day / Night mode ────────────────────────────────────────── */
   let currentTheme = localStorage.getItem('jjTheme') || 'light';
 
   function applyTheme(theme){
@@ -506,7 +481,6 @@
 
   applyTheme(currentTheme);
 
-  /* ── Γλώσσα ──────────────────────────────────────────────────── */
   const langRow = document.getElementById('langRow');
   AVAILABLE_LANGS.forEach(lang => {
     const btn = document.createElement('button');
@@ -523,7 +497,8 @@
     document.getElementById('htmlRoot').setAttribute('lang', lang);
     document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
     applyStaticTexts();
-    if (currentCategory) renderPanel(); // ξαναφτιάχνει τη λίστα με τη νέα γλώσσα
+    refreshCategoryButtonLabels();
+    if (currentCategory) renderPanel();
   }
 
   function applyStaticTexts(){
@@ -546,9 +521,6 @@
     }
   }
 
-  /* ================================================================
-     CLIENT CONFIG
-     ================================================================ */
   function applyClientConfig(cfg){
     window.__clientCfg = cfg;
     document.getElementById('heroSection').style.background =
@@ -579,7 +551,6 @@
         styleTag.id = 'clientThemeVars';
         document.head.appendChild(styleTag);
       }
-      /* Χαμηλή προτεραιότητα (:root) ώστε το html[data-theme="dark"] να μπορεί να το "νικήσει" */
       styleTag.textContent = `:root{ ${declarations} }`;
     }
 
@@ -614,11 +585,8 @@
       .catch(() => showConfigError('Δεν βρέθηκε config για "' + clientKey + '". Έλεγξε ότι υπάρχει το αρχείο clients/' + clientKey + '.json'));
   }
 
-  applyStaticTexts(); // αρχικό γέμισμα πριν καν φορτώσει το client config
+  applyStaticTexts();
 
-  /* ================================================================
-     ΚΟΙΝΟ TEMPLATE — δυναμική φόρτωση από τον backend server
-     ================================================================ */
   const CATEGORY_ICONS = {
     cafe:   'M4 9h13a3 3 0 010 6h-1M4 9v7a3 3 0 003 3h6a3 3 0 003-3V9M4 9V6h13v3',
     food:   'M6 3v7a2 2 0 002 2 2 2 0 002-2V3M8 12v9M18 3c-2 0-3 2-3 5v3h2v7',
@@ -686,7 +654,6 @@
     });
   }
 
-  /** Απόσταση σε km ανάμεσα σε δύο σημεία (haversine) — υπολογίζεται στο ίδιο το κινητό. */
   function distanceKm(lat1, lng1, lat2, lng2){
     const R = 6371;
     const dLat = ((lat2 - lat1) * Math.PI) / 180;
@@ -697,7 +664,6 @@
     return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   }
 
-  /** Τυχαία ανακάτεμα πίνακα (Fisher-Yates). */
   function shuffle(array){
     const copy = [...array];
     for (let i = copy.length - 1; i > 0; i--) {
@@ -707,9 +673,8 @@
     return copy;
   }
 
-  const staticDataCache = {}; // αποθηκεύει ήδη κατεβασμένα αρχεία, να μην ξαναφορτώνονται
+  const staticDataCache = {};
 
-  /** Φορτώνει (μία φορά ανά κατηγορία+περιοχή) το στατικό JSON αρχείο. */
   async function loadStaticPlaces(category, region){
     const key = `${category}-${region}`;
     if (staticDataCache[key]) return staticDataCache[key];
@@ -721,7 +686,6 @@
     return places;
   }
 
-  /** Φιλτράρει/ταξινομεί/σελιδοποιεί ΤΟΠΙΚΑ, στο ίδιο το κινητό — χωρίς server. */
   async function fetchPlaces({ featured = false, sort = 'default', limit = PAGE_SIZE, offset = 0 } = {}){
     let list = await loadStaticPlaces(currentCategory, currentRegion);
 
