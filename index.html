@@ -507,7 +507,8 @@
   function applyStaticTexts(){
     document.getElementById('heroEyebrow').textContent = t('eyebrow');
     document.getElementById('exploreTitle').textContent = t('exploreTitle');
-    document.getElementById('tapHint').textContent = t('tapHint');
+    const tapHintEl = document.getElementById('tapHint');
+    if (tapHintEl) tapHintEl.textContent = t('tapHint');
     document.getElementById('lblWifiNetwork').textContent = t('wifiNetwork');
     document.getElementById('lblWifiPassword').textContent = t('wifiPassword');
     document.getElementById('lblCheckout').textContent = t('checkout');
